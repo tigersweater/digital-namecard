@@ -1,0 +1,246 @@
+/* ===== 색상 정의 (라이트 모드 기본값) ===== */
+:root {
+  --bg: #f4f5f7;
+  --grad-start: #ffffff;   /* 배경 그라데이션 시작: 흰색 */
+  --grad-end: #d6e4ff;     /* 배경 그라데이션 끝: 연한 파란색 */
+  --card: #ffffff;
+  --text: #1a1d24;
+  --text-sub: #5b6270;
+  --line: #e4e6eb;
+  --accent: #4f6bff;
+  --accent-soft: #eef1ff;
+  /* 그림자를 3겹으로 겹쳐서 부드럽게 퍼지도록 */
+  --shadow:
+    0 1px 2px rgba(30, 40, 80, 0.04),
+    0 8px 24px rgba(30, 40, 80, 0.06),
+    0 24px 60px rgba(30, 40, 80, 0.10);
+}
+
+/* ===== 다크 모드: 컴퓨터 설정이 다크일 때 (직접 고른 적이 없으면) ===== */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0f1115;
+    --grad-start: #1b2550;   /* 진한 남색 */
+    --grad-end: #05060a;     /* 검정 */
+    --card: #181b22;
+    --text: #eef0f4;
+    --text-sub: #a0a7b4;
+    --line: #2a2e38;
+    --accent: #8197ff;
+    --accent-soft: #232a45;
+    --shadow:
+      0 1px 2px rgba(0, 0, 0, 0.30),
+      0 8px 24px rgba(0, 0, 0, 0.30),
+      0 24px 60px rgba(0, 0, 0, 0.45);
+  }
+}
+
+/* ===== 다크 모드: 토글 버튼으로 직접 고른 경우 ===== */
+:root[data-theme="dark"] {
+  --bg: #0f1115;
+  --grad-start: #1b2550;
+  --grad-end: #05060a;
+  --card: #181b22;
+  --text: #eef0f4;
+  --text-sub: #a0a7b4;
+  --line: #2a2e38;
+  --accent: #8197ff;
+  --accent-soft: #232a45;
+  --shadow:
+    0 1px 2px rgba(0, 0, 0, 0.30),
+    0 8px 24px rgba(0, 0, 0, 0.30),
+    0 24px 60px rgba(0, 0, 0, 0.45);
+}
+
+/* ===== 기본 설정 ===== */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 72px 16px 32px;
+  font-family: "Pretendard", "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif;
+  color: var(--text);
+  /* 위(시작색) → 아래(끝색)로 은은한 그라데이션. 스크롤해도 배경은 고정 */
+  background: linear-gradient(180deg, var(--grad-start), var(--grad-end)) fixed;
+  background-color: var(--bg);
+  transition: background-color 0.3s, color 0.3s;
+}
+
+svg {
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  flex-shrink: 0;
+}
+
+/* ===== 명함 카드 ===== */
+.card {
+  width: 100%;
+  max-width: 420px;
+  padding: 40px 32px 32px;
+  text-align: center;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  box-shadow: var(--shadow);
+  animation: rise 0.6s ease-out;
+}
+
+@keyframes rise {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* 프로필 사진 자리 (원형) */
+.avatar {
+  width: 112px;
+  height: 112px;
+  margin: 0 auto 20px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(135deg, var(--accent), #a26bff);
+  box-shadow: 0 0 0 6px var(--accent-soft);
+  color: #fff;
+  font-size: 30px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.name {
+  font-size: 28px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+}
+
+.role {
+  margin-top: 6px;
+  font-size: 15px;
+  color: var(--text-sub);
+}
+.role strong { color: var(--accent); font-weight: 600; }
+
+.bio {
+  margin: 18px 0 24px;
+  font-size: 14.5px;
+  line-height: 1.7;
+  color: var(--text-sub);
+}
+
+/* 연락처 */
+.contact {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 20px 0;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  text-align: left;
+}
+
+.contact a,
+.contact div {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  color: var(--text);
+  text-decoration: none;
+  font-size: 15px;
+  transition: background 0.2s;
+}
+.contact svg { color: var(--accent); }
+.contact a:hover { background: var(--accent-soft); }
+
+/* SNS 버튼 */
+.social {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-top: 24px;
+}
+
+.social a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 12px 8px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  color: var(--text);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 600;
+  transition: transform 0.2s, border-color 0.2s, color 0.2s, background 0.2s;
+}
+/* 마우스를 올리면: 살짝 커지고(1.06배) 포인트 색으로 채워짐 */
+.social a:hover {
+  transform: scale(1.06);
+  border-color: var(--accent);
+  color: #fff;
+  background: var(--accent);
+  box-shadow: 0 8px 20px rgba(79, 107, 255, 0.30);
+}
+
+/* 이메일 복사 버튼 */
+.copy-btn {
+  width: 100%;
+  margin-top: 12px;
+  padding: 14px;
+  border: none;
+  border-radius: 14px;
+  background: var(--accent);
+  color: #fff;
+  font: inherit;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+.copy-btn:hover { opacity: 0.9; }
+
+/* 테마 토글 버튼 (오른쪽 위) */
+.theme-toggle {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: var(--card);
+  color: var(--text);
+  cursor: pointer;
+  box-shadow: var(--shadow);
+}
+.theme-toggle .icon-moon { display: none; }
+.theme-toggle.is-dark .icon-sun { display: none; }
+.theme-toggle.is-dark .icon-moon { display: block; }
+
+.footer {
+  margin-top: 24px;
+  font-size: 12px;
+  color: var(--text-sub);
+}
+
+/* ===== 모바일 화면 (폭 480px 이하) ===== */
+@media (max-width: 480px) {
+  body { justify-content: flex-start; }
+  .card { padding: 32px 20px 24px; border-radius: 20px; }
+  .avatar { width: 96px; height: 96px; font-size: 26px; }
+  .name { font-size: 24px; }
+  .social { grid-template-columns: 1fr; }
+}
